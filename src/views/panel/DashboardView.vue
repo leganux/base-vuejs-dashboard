@@ -8,10 +8,29 @@ import {
   SuiDivider,
   SuiContainer,
 } from 'vue-fomantic-ui'
+
+const breadCrumb = [
+  {
+    active: false,
+    link: true,
+    name: 'Home',
+    divider: false,
+    url: '/',
+  },
+  {
+    divider: true,
+  },
+  {
+    active: true,
+    link: false,
+    name: 'Dashboard',
+    divider: false,
+  },
+]
 </script>
 
 <template>
-  <Dashboard>
+  <Dashboard :bread-crumb="breadCrumb">
     <SuiSegment>
       <SuiHeader floated="right">Dashboard</SuiHeader>
       <SuiDivider clearing />

@@ -17,6 +17,7 @@ import { RouterLink } from 'vue-router'
       <SuiSegment>
         <SuiHeader floated="right">Welcome</SuiHeader>
         <SuiDivider clearing />
+        <h1>Example home page</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
           commodo ligula eget dolor. Aenean massa strong. Cum sociis natoque

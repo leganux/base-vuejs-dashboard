@@ -16,6 +16,7 @@ const MenuConfig = (
   imageProfile: string = '',
   selected: string | undefined,
   search: boolean = false,
+  imageBrand: string = '',
   addMenuItems: IMenuConfig[] | null | undefined = [],
   addProfileItems: IMenuConfig[] | null | undefined = [],
   addNavbarItems: INavbar[] | null | undefined = [],
@@ -26,10 +27,33 @@ const MenuConfig = (
       path: '/dashboard',
       name: 'Dashboard',
       icon: 'paw',
+      active: true,
+    },
+    {
+      path: '/users',
+      name: 'Usuarios',
+      icon: 'users',
     },
   ]
-  let navBarItems: INavbar[] = [...addNavbarItems]
-  let profileItems: INavbar[] = [...addProfileItems]
+  let navBarItems: INavbar[] = [
+    ...addNavbarItems,
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+    },
+    {
+      path: '/',
+      name: 'Sitio Web',
+    },
+  ]
+  let profileItems: INavbar[] = [
+    ...addProfileItems,
+    {
+      path: '/profile',
+      name: 'Perfil',
+      icon: 'user',
+    },
+  ]
 
   menuItems = menuItems.map((item: IMenuConfig) => {
     if (item.name == selected) {
@@ -61,6 +85,7 @@ const MenuConfig = (
     search,
     username,
     imageProfile,
+    imageBrand,
     profileItems: profileItems,
     navBarItems: navBarItems,
     menuItems: menuItems,

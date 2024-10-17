@@ -2,14 +2,17 @@
 import {
   SuiContainer,
   SuiSegment,
-  SuiHeader,
+  SuiImage,
+  SuiInput,
   SuiDivider,
   SuiGrid,
   SuiGridColumn,
-  SuiForm,
+  SuiButtonGroup,
+  SuiLabel,
   SuiFormField,
   SuiButton,
 } from 'vue-fomantic-ui'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -17,34 +20,58 @@ import {
     <br />
     <br />
     <br />
-    <br />
-    <br />
-    <br />
+
+
+
     <SuiContainer>
-      <SuiSegment>
-        <SuiHeader floated="right">Login/Register</SuiHeader>
-        <SuiDivider clearing />
-        <SuiSegment placeholder>
-          <SuiGrid columns="equal">
-            <SuiGridColumn>
-              <SuiForm>
-                <SuiFormField>
-                  <label>Username</label>
-                  <input type="text" placeholder="Username" />
-                </SuiFormField>
-                <SuiFormField>
-                  <label>Password</label>
-                  <input type="password" placeholder="Password" />
-                </SuiFormField>
-                <SuiButton primary>Login</SuiButton>
-              </SuiForm>
-            </SuiGridColumn>
-            <SuiGridColumn textAlign="middle">
-              <SuiButton secondary icon="signup" content="Sign Up" />
-            </SuiGridColumn>
-          </SuiGrid>
-          <SuiDivider vertical>Or</SuiDivider>
-        </SuiSegment>
+      <SuiSegment style="padding: 50px" placeholder>
+        <SuiGrid columns="equal">
+          <SuiGridColumn textAlign="middle">
+            <SuiFormField>
+              <SuiLabel>Correo Electrónico</SuiLabel>
+              <br />
+              <br />
+              <SuiInput fluid icon="mail" placeholder="Correo electrónico" />
+            </SuiFormField>
+            <br />
+            <SuiFormField>
+              <SuiLabel>Contraseña</SuiLabel>
+              <br />
+              <br />
+              <SuiInput
+                fluid
+                icon="lock"
+                type="password"
+                placeholder="Contraseña"
+              />
+            </SuiFormField>
+            <br />
+            <SuiButton fluid color="teal">Acceder</SuiButton>
+            <br />
+            <SuiContainer textAlign="center">
+              <SuiButtonGroup>
+                <SuiButton tertiary primary>Olvidé mi contraseña</SuiButton>
+                <RouterLink to="/"> <SuiButton  tertiary primary>Volver al home</SuiButton></RouterLink>
+
+              </SuiButtonGroup>
+            </SuiContainer>
+
+
+            <SuiDivider style="margin-bottom: 30px; margin-top: 30px"></SuiDivider>
+            <SuiButton secondary fluid icon="signup" content="Regístrarse" />
+            <!--  <SuiButton icon="google" fluid white>Acceder con Google</SuiButton>
+              <br />
+              <SuiButton facebook icon="facebook" fluid
+                >Acceder con Facebook
+              </SuiButton>-->
+          </SuiGridColumn>
+          <SuiGridColumn textAlign="middle">
+            <SuiContainer textAlign="center">
+              <SuiImage src="/web/images/login.jpg" fluid />
+            </SuiContainer>
+          </SuiGridColumn>
+        </SuiGrid>
+        <SuiDivider vertical>-></SuiDivider>
       </SuiSegment>
     </SuiContainer>
   </div>

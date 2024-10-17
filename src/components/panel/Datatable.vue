@@ -146,7 +146,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <SuiContainer textAlign="right">
+  <SuiContainer fluid textAlign="right">
     <SuiButton basic positive>New</SuiButton>
   </SuiContainer>
   <DataTable
