@@ -12,16 +12,36 @@ import {
   SuiFormField,
   SuiButton,
 } from 'vue-fomantic-ui'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth.store'
+import { ref } from 'vue'
+import HoldOnComponent from '@/components/HoldOnComponent.vue'
+import { useHoldOn } from '@/stores/dimmed.store'
+
+const HoldOn = useHoldOn()
+const router = useRouter()
+
+const authStore = useAuthStore()
+const email = ref('')
+const password = ref('')
+
+const handleLogin = async () => {
+  HoldOn.open('Accediendo...', 'user')
+  const success = await authStore.login(email.value, password.value)
+  console.log(email.value, password.value)
+  if (success) {
+    router.push('/dashboard')
+  }
+  //HoldOn.close()
+}
 </script>
 
 <template>
+  <HoldOnComponent />
   <div id="welcome">
     <br />
     <br />
     <br />
-
-
 
     <SuiContainer>
       <SuiSegment style="padding: 50px" placeholder>
@@ -31,7 +51,12 @@ import { RouterLink } from 'vue-router'
               <SuiLabel>Correo Electrónico</SuiLabel>
               <br />
               <br />
-              <SuiInput fluid icon="mail" placeholder="Correo electrónico" />
+              <SuiInput
+                v-model="email"
+                fluid
+                icon="mail"
+                placeholder="Correo electrónico"
+              />
             </SuiFormField>
             <br />
             <SuiFormField>
@@ -39,6 +64,7 @@ import { RouterLink } from 'vue-router'
               <br />
               <br />
               <SuiInput
+                v-model="password"
                 fluid
                 icon="lock"
                 type="password"
@@ -46,24 +72,23 @@ import { RouterLink } from 'vue-router'
               />
             </SuiFormField>
             <br />
-            <SuiButton fluid color="teal">Acceder</SuiButton>
+            <SuiButton @click="handleLogin" fluid color="teal"
+              >Acceder
+            </SuiButton>
             <br />
             <SuiContainer textAlign="center">
               <SuiButtonGroup>
                 <SuiButton tertiary primary>Olvidé mi contraseña</SuiButton>
-                <RouterLink to="/"> <SuiButton  tertiary primary>Volver al home</SuiButton></RouterLink>
-
+                <RouterLink to="/">
+                  <SuiButton tertiary primary>Volver al home</SuiButton>
+                </RouterLink>
               </SuiButtonGroup>
             </SuiContainer>
 
-
-            <SuiDivider style="margin-bottom: 30px; margin-top: 30px"></SuiDivider>
+            <SuiDivider
+              style="margin-bottom: 30px; margin-top: 30px"
+            ></SuiDivider>
             <SuiButton secondary fluid icon="signup" content="Regístrarse" />
-            <!--  <SuiButton icon="google" fluid white>Acceder con Google</SuiButton>
-              <br />
-              <SuiButton facebook icon="facebook" fluid
-                >Acceder con Facebook
-              </SuiButton>-->
           </SuiGridColumn>
           <SuiGridColumn textAlign="middle">
             <SuiContainer textAlign="center">
@@ -77,7 +102,7 @@ import { RouterLink } from 'vue-router'
   </div>
 </template>
 
-<style>
+<style scoped>
 #welcome {
   background-image: url('/web/images/bg01.jpg');
   min-height: 1000px;

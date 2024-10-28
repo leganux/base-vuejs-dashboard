@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Dashboard from '@/components/panel/Dashboard.vue'
+import Dashboard from '@/components/panel/DashboardCompnent.vue'
 import { SuiDivider, SuiHeader, SuiSegment } from 'vue-fomantic-ui'
 </script>
 

@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import Dashboard from '../../components/panel/Dashboard.vue'
+import Dashboard from '../../components/panel/DashboardCompnent.vue'
 
-import Datatable from '../../components/panel/Datatable.vue'
+import Datatable from '../../components/panel/DatatableComponent.vue'
 import {
   SuiSegment,
   SuiHeader,
   SuiDivider,
   SuiContainer,
 } from 'vue-fomantic-ui'
+import CKeditorComponent from '@/components/panel/CKeditorComponent.vue'
+import { ref } from 'vue'
 
 const breadCrumb = [
   {
@@ -27,6 +29,16 @@ const breadCrumb = [
     divider: false,
   },
 ]
+
+const editorContent = ref('<p>Contenido inicial</p>')
+
+const submitContent = () => {
+  console.log('Contenido del editor:', editorContent.value)
+  // Aquí puedes enviar el contenido a un servidor o realizar otra acción
+}
+setInterval(function () {
+  submitContent()
+}, 5000)
 </script>
 
 <template>
@@ -36,6 +48,7 @@ const breadCrumb = [
       <SuiDivider clearing />
 
       <Datatable></Datatable>
+      <CKeditorComponent v-model="editorContent"></CKeditorComponent>
     </SuiSegment>
   </Dashboard>
 </template>
