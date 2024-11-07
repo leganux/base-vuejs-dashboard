@@ -48,11 +48,11 @@ export const useAuthStore = defineStore('auth', {
         this.token = response.data.token
         this.user = response.data.user
         localStorage.setItem('token', response.data.token)
-        return true
+        return response
       } catch (error) {
         console.error(error)
         this.error = error.response?.data?.message || 'Login failed'
-        return false
+        return { error: error }
       } finally {
         this.loading = false
       }

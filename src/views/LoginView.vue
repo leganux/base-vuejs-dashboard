@@ -18,21 +18,64 @@ import { ref } from 'vue'
 import HoldOnComponent from '@/components/HoldOnComponent.vue'
 import { useHoldOn } from '@/stores/dimmed.store'
 
+import Swal from 'sweetalert2'
+import * as _ from 'lodash'
+
 const HoldOn = useHoldOn()
 const router = useRouter()
 
 const authStore = useAuthStore()
 const email = ref('')
 const password = ref('')
+const user = ref('')
+
+const isRegister = ref(false)
+
+const handleResetPassword = async () => {
+  const { value: email } = await Swal.fire({
+    title: 'Ingresa tu correo electrónico',
+    input: 'email',
+    inputLabel: 'Tu correo electrónico',
+    inputPlaceholder: 'mail@mail.com',
+  })
+  if (email) {
+    Swal.fire({
+      title: 'Verifica tu correo',
+      html: `Enviamos un correo electronico a: ${email} para recuperar tu contraseña. <br>Por favor sigue las intrucciones.`,
+    })
+  }
+}
 
 const handleLogin = async () => {
   HoldOn.open('Accediendo...', 'user')
-  const success = await authStore.login(email.value, password.value)
+  const login = await authStore.login(email.value, password.value)
   console.log(email.value, password.value)
-  if (success) {
+  if (login.error) {
+    let error
+    if (login.error?.response?.data?.message) {
+      error = login?.error?.response?.data?.message
+
+      if (Array.isArray(error)) {
+        error = error
+          .map(item => {
+            return `<b>${_.capitalize(item)}</b>`
+          })
+          .join('<br>')
+      }
+    }
+
+    HoldOn.close()
+    Swal.fire({
+      title: 'Ocurrio un error',
+      html:
+        'Error al iniciar sesión verifique sus credenciales <br>' +
+        (error || ''),
+      icon: 'error',
+    })
+  } else {
+    HoldOn.close()
     router.push('/dashboard')
   }
-  //HoldOn.close()
 }
 </script>
 
@@ -71,14 +114,38 @@ const handleLogin = async () => {
                 placeholder="Contraseña"
               />
             </SuiFormField>
+            <template v-if="isRegister">
+              <SuiFormField>
+                <SuiLabel>Usuario</SuiLabel>
+                <br />
+                <br />
+                <SuiInput
+                  v-model="user"
+                  fluid
+                  icon="user"
+                  type="string"
+                  placeholder="Usuario"
+                />
+              </SuiFormField>
+            </template>
             <br />
-            <SuiButton @click="handleLogin" fluid color="teal"
+            <SuiButton
+              v-if="!isRegister"
+              @click="handleLogin"
+              fluid
+              color="teal"
               >Acceder
             </SuiButton>
+            <SuiButton v-else @click="handleLogin" fluid secondary
+              >Registrarse
+            </SuiButton>
+
             <br />
             <SuiContainer textAlign="center">
               <SuiButtonGroup>
-                <SuiButton tertiary primary>Olvidé mi contraseña</SuiButton>
+                <SuiButton @click="handleResetPassword" tertiary primary
+                  >Olvidé mi contraseña
+                </SuiButton>
                 <RouterLink to="/">
                   <SuiButton tertiary primary>Volver al home</SuiButton>
                 </RouterLink>
@@ -88,7 +155,22 @@ const handleLogin = async () => {
             <SuiDivider
               style="margin-bottom: 30px; margin-top: 30px"
             ></SuiDivider>
-            <SuiButton secondary fluid icon="signup" content="Regístrarse" />
+            <SuiButton
+              v-if="!isRegister"
+              secondary
+              fluid
+              icon="signup"
+              content="Regístrarse"
+              @click="isRegister = true"
+            />
+            <SuiButton
+              @click="isRegister = false"
+              v-else
+              color="teal"
+              fluid
+              icon="key"
+              content="Acceder"
+            />
           </SuiGridColumn>
           <SuiGridColumn textAlign="middle">
             <SuiContainer textAlign="center">
